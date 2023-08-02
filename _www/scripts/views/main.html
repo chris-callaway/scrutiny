@@ -1,0 +1,353 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-class="{'container no-padding-top': showShowHeader, 'container': !showShowHeader}" ng-hide="loading">
+
+    <!-- Main Menu -->
+
+    <div id="main-selection" ng-show="showMenu" class="highlight-options">
+        <h1>What would you like to do?</h1>
+
+        <div class="form-group">
+            <ul class="row">
+                <li class="col-xs-3"
+                    ng-click="highlightItem('textMessage')">
+                    <div ng-mouseover="setIcons('textMessage')" ng-mouseleave="hoverOut('textMessage')"
+                         ng-class="(highlightedItem == 'textMessage') ? 'highlightedItem col-container' : 'col-container'">
+                        <img ng-src="images/{{textIcon}}"/>
+
+                        <p>Send text message</p>
+                    </div>
+                </li>
+                <li class="col-xs-3">
+                    <div ng-mouseover="setIcons('email')" ng-mouseleave="hoverOut('email')"
+                         ng-class="(highlightedItem == 'email') ? 'highlightedItem col-container' : 'col-container'"
+                         ng-click="highlightItem('email')">
+                        <img ng-src="images/{{emailIcon}}"/>
+
+                        <p>Send email</p>
+                    </div>
+                </li>
+                <li class="col-xs-3"
+                    ng-click="highlightItem('phoneCall')">
+                    <div ng-mouseover="setIcons('phoneCall')" ng-mouseleave="hoverOut('phoneCall')"
+                         ng-class="(highlightedItem == 'phoneCall') ? 'highlightedItem col-container' : 'col-container'">
+                        <img ng-src="images/{{phoneIcon}}"/>
+
+                        <p>Make phone call</p>
+                    </div>
+                </li>
+                <li class="col-xs-3"
+                    ng-click="highlightItem('socialMedia')">
+                    <div ng-mouseover="setIcons('socialMedia')" ng-mouseleave="hoverOut('socialMedia')"
+                         ng-class="(highlightedItem == 'socialMedia') ? 'highlightedItem col-container' : 'col-container'">
+                        <img ng-src="images/{{socialIcon}}"/>
+
+                        <p>Social Media</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <button class="form-button small-button" ng-click="menuSelect()">Next</button>
+        </div>
+
+    </div>
+
+    <!-- Text Message -->
+
+    <div ng-show="selectedMethod == 'textMessage'" class="form-group form-container">
+        <h2>Send Text Message</h2>
+
+        <div class="form-group inner-addon right-addon">
+            <i ng-cloak ng-show="phoneVerified" class="fa fa-check"></i>
+            <i ng-cloak ng-show="!phoneVerified && phoneFocused" class="fa fa-times"></i>
+            <input type="text" ng-model="textTo" placeholder="Phone number"/>
+        </div>
+        <div class="form-group">
+        <textarea type="text" ng-focus="verifyPhone('text'); phoneFocused = true" class="form-control"
+                  id="textMessageBody"
+                  ng-model="textMessageBody"
+                  placeholder="Message..."></textarea>
+        </div>
+
+        <div class="form-group file-input-wrapper">
+            <button class="btn-file-input"><i class="fa fa-paperclip"></i>Add an attachment</button>
+            <input type="file" id="textAttachment" file-model="textAttachment">
+            <!--<button ng-click="resetTextAttachment()">Reset</button>-->
+        </div>
+
+        <button ng-click="sendTextMessage()" class="btn btn-default">Send</button>
+        <div class="form-group">
+            <p ng-class="(textMessageError) ? 'message-failed' : 'message-success'"
+               ng-bind="textMessageResults"></p>
+        </div>
+    </div>
+
+    <!-- Phone Call -->
+
+    <div ng-show="selectedMethod == 'phoneCall'" class="form-group form-container">
+        <h2>Make Phone Call</h2>
+
+        <div class="form-group inner-addon right-addon">
+            <i ng-cloak ng-show="callVerified" class="fa fa-check"></i>
+            <i ng-cloak ng-show="!callVerified && callFocused" class="fa fa-times"></i>
+            <input type="text" ng-model="callTo" placeholder="Phone number"/>
+        </div>
+        <div class="form-group">
+        <textarea ng-focus="verifyPhone('call'); callFocused = true" type="text" class="form-control" id="callBody"
+                  ng-model="callBody"
+                  placeholder="Message"></textarea>
+        </div>
+
+        <div class="form-group">
+            <ul class="row" id="voice-options">
+                <li class="col-xs-6" ng-click="selectVoice('man')">
+                    <div class="col-container" ng-class="{'highlightedItem': phoneVoice == 'man'}">
+                        <div class="{{
+                            phoneVoice=='man'?'voice-icon-man-y':'voice-icon-man-g'}}"
+                             ng-class="getSelectedMethod(selectedMethod, item.method)">
+                        </div>
+                        <!--<img src="images/g_man.png"/>-->
+
+                        <p>Man's Voice</p>
+                    </div>
+                </li>
+                <li class="col-xs-6" ng-click="selectVoice('woman')">
+                    <div class="col-container" ng-class="{'highlightedItem': phoneVoice == 'woman'}">
+                        <div class="{{
+                            phoneVoice=='woman'?'voice-icon-woman-y':'voice-icon-woman-g'}}"
+                             ng-class="getSelectedMethod(selectedMethod, item.method)">
+                        </div>
+                        <!--<img src="images/g_lady.png"/>-->
+
+                        <p>Woman's Voice</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <button ng-click="makePhoneCall()" class="btn btn-default">Call</button>
+        <div class="form-group">
+            <p ng-class="(phoneCallError) ? 'message-failed' : 'message-success'"
+               ng-bind="makePhoneCallResults"></p>
+        </div>
+    </div>
+
+    <!-- Email -->
+
+    <div ng-show="selectedMethod == 'email'" class="form-group form-container">
+        <h2>Send Email</h2>
+
+        <div class="form-group inner-addon right-addon">
+            <i ng-cloak ng-show="emailVerified" class="fa fa-check"></i>
+            <i ng-cloak ng-show="!emailVerified  && emailFocused" class="fa fa-times"></i>
+            <input type="text" ng-model="emailTo" placeholder="Email address"/>
+        </div>
+
+        <div class="form-group">
+        <textarea ng-focus="verifyEmail(); emailFocused = true" type="text" class="form-control" id="emailBody"
+                  ng-model="emailBody"
+                  placeholder="Message"></textarea>
+        </div>
+
+        <div class="form-group file-input-wrapper">
+            <button class="btn-file-input"><i class="fa fa-paperclip"></i>Add an attachment</button>
+            <input type="file" id="emailAttachment" file-model="emailAttachment">
+            <!--<button ng-click="resetEmailAttachment()">Reset</button>-->
+        </div>
+
+        <button ng-click="sendEmail()" class="btn btn-default">Send</button>
+        <div class="form-group">
+            <p ng-class="(sendEmailError) ? 'message-failed' : 'message-success'" ng-bind="sendEmailResults"></p>
+        </div>
+    </div>
+
+    <!-- Social Media Menu -->
+
+    <div ng-show="selectedMethod == 'socialMedia' && !selectedSocial" ng-cloak class="form-group form-container">
+
+        <div class="form-group social-menu">
+            <ul class="row" ng-cloak>
+                <li class="col-sm-6">
+                    <div class="col-container" id="facebook-icon" ng-click="socialSelect('facebook')">
+                        <i class="fa fa-facebook font-icon"></i>
+                    </div>
+                </li>
+                <li class="col-sm-6">
+                    <div class="col-container" id="twitter-icon" ng-click="socialSelect('twitter')">
+                        <i class="fa fa-twitter font-icon"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Twitter -->
+
+    <div ng-show="selectedMethod == 'socialMedia' && selectedSocial == 'twitter'" class="form-group form-container">
+        <h2 class="subtitle">Twitter</h2>
+
+        <!--<button ng-show="showAddHashtags" ng-click="addNewHashtag()">+</button>-->
+        <!--<button ng-show="showRemoveHashtags" ng-click="removeHashtag()">-</button>-->
+
+        <div class="form-group inner-addon right-addon input-group full-width">
+            <span ng-repeat="hashtag in hashtags" ng-show="hashtag.id" class="input-group-addon" id="basic-addon1">{{hashtag.id}}
+            <span ng-click="removeHashtag($index)" class="remove-btn">X</span></span>
+            <i class="fa fa-question font-icon" uib-tooltip="Tooltip on left" tooltip-placement="left"
+               tooltip-animation="false"></i>
+            <input id="hashtags" aria-describedby="basic-addon1" type="text" ng-keyup="checkHashtag($event)"
+                   placeholder="Add hashtag" ng-blur="checkHashtag($event, true)"/>
+        </div>
+
+        <div class="form-group">
+        <textarea type="text" class="form-control" id="twitterMsg"
+                  ng-model="twitterMsg"
+                  placeholder="Message"></textarea>
+        </div>
+
+        <div class="form-group file-input-wrapper">
+            <button class="btn-file-input"><i class="fa fa-paperclip"></i>Add an attachment</button>
+            <input type="file" id="twitterAttachment" file-model="twitterAttachment">
+            <!--<button ng-click="resetTwitterAttachment()">Reset</button>-->
+        </div>
+
+        <button ng-click="sendTweet()" class="btn btn-default">Send Tweet</button>
+        <div class="form-group">
+            <p ng-class="(sendTweetError) ? 'message-failed' : 'message-success'" ng-bind="sendTweetResults"></p>
+        </div>
+    </div>
+
+    <!-- Facebook -->
+
+    <div ng-show="selectedMethod == 'socialMedia' && selectedSocial == 'facebook'"
+         class="form-group form-container">
+        <h2 class="subtitle">Facebook</h2>
+
+        <ul id="facebook-options" class="row">
+            <li class="col-sm-6">
+                <div class="col-container" ng-class="{'highlightedItem': facebookAction == 'postToWall'}"
+                     ng-click="facebookAction = 'postToWall'">
+                    <p>Get something off your chest</p>
+                </div>
+            </li>
+            <li class="center-overlay-icon">OR</li>
+            <li class="col-sm-6">
+                <div class="col-container" ng-class="{'highlightedItem': facebookAction == 'sendMessage'}"
+                     ng-click="facebookAction = 'sendMessage'">
+                    <p>Send a message to someone</p>
+                </div>
+            </li>
+        </ul>
+
+        <!--Facebook get something off your chest feature-->
+
+        <div class="form-group" ng-show="facebookAction == 'postToWall'">
+        <textarea type="text" class="form-control" id="facebookPostToWall" ng-model="$parent.facebookPostToWall"
+                  placeholder="Message"></textarea>
+        </div>
+
+        <div class="form-group" ng-show="facebookAction == 'postToWall'">
+            <button ng-click="sendFacebook(facebookAction)" class="btn btn-default">Send
+            </button>
+        </div>
+
+        <!--Facebook profile search-->
+
+        <div class="form-group" ng-show="facebookAction == 'sendMessage'">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="col-container no-padding">
+                        <input type="text" ng-model="facebookSearch" placeholder="Profile Name"
+                               my-enter="getFacebookProfiles()"/>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="col-container no-padding">
+                        <button class="search-btn" ng-click="getFacebookProfiles()">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" ng-show="facebookProfiles && !selectedFacebookProfile">
+            <table class="table">
+                <thead>
+                <!--<th>UID</th>-->
+                <th>&nbsp;</th>
+                <th>Photo</th>
+                <th>Name</th>
+                <!--<th>Category</th>-->
+                <th>URL</th>
+                </thead>
+                <tbody>
+                <tr class="selectableRow"
+                    ng-repeat="profiles in facebookProfiles">
+                    <td>
+                        <input ng-click="selectFacebookProfile($index)" type="radio" name="facebookProfile"
+                               value="facebookProfile[$index]"
+                               ng-model="facebookProfile"/>
+                    </td>
+                    <td><img class="fb-profile" src="{{profiles.photo}}"/></td>
+                    <td>{{profiles.text}}</td>
+                    <!--<td>{{profiles.category}}</td>-->
+                    <td><a target="_blank" href="{{profiles.path}}">view profile</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <button ng-click="facebookSubmit()">Next</button>
+        </div>
+
+        <!--Facebook selected profile-->
+
+        <div class="gray-container" ng-show="selectedFacebookProfile && facebookAction != 'postToWall'">
+            <div class="form-group"
+                 ng-repeat="profiles in selectedFacebookProfile">
+                <img class="fb-profile icon-overlay" src="{{profiles.photo}}"/>
+
+                <p>Message type:</p>
+
+                <div class="form-group">
+                    <label class="btn">
+                        <input name="voice" id="facebookMessageType1" value="personal" class="active" type="radio"
+                               ng-model="$parent.facebookMessageType">&nbsp;Personal Msg
+                    </label>
+                </div>
+
+                <div class="form-group" ng-hide="!isFacebookFriend">
+                    <label class="btn">
+                        <input name="voice" id="facebookMessageType2" value="wall" class="active" type="radio"
+                               ng-model="$parent.facebookMessageType">&nbsp;Wall Post
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" disabled value="To: {{profiles.text}}"/>
+                </div>
+
+                <div class="form-group" ng-show="selectedFacebookProfile  && facebookAction != 'postToWall'">
+                    <textarea type="text" class="form-control" id="facebookMsg" ng-model="$parent.facebookMsg"
+                              placeholder="Message"></textarea>
+                </div>
+
+                <!--<div class="form-group">-->
+                <!--<label>Attachment:</label><input type="file" id="facebookAttachment" file-model="facebookAttachment">-->
+                <!--<button ng-click="resetFacebookAttachment()">Reset</button>-->
+                <!--</div>-->
+
+                <button ng-click="sendFacebook(facebookAction)" class="btn btn-default"
+                        ng-show="selectedFacebookProfile  && facebookAction != 'postToWall'">
+                    Send
+                </button>
+                <div class="form-group">
+                    <p ng-class="(sendFacebookError) ? 'message-failed' : 'message-success'"
+                       ng-bind="sendFacebookResults"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

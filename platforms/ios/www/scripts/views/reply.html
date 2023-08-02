@@ -1,0 +1,20 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div class="container" ng-hide="loading">
+    <div class="form-group">
+        <h2>Send Reply Message</h2>
+
+        <div class="form-group">
+        <textarea type="text" class="form-control" id="replyMessageBody" ng-model="replyMessageBody"
+                  placeholder="Message"></textarea>
+        </div>
+
+        <button ng-click="sendReplyMessage()" class="btn btn-default">Send Text</button>
+        <div class="form-group">
+            <p ng-class="(replyMessageError) ? 'message-failed' : 'message-success'"
+               ng-bind="replyMessageResults"></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-hide="loading" id="login-form" class="form-container">
+
+    <div class="form-group">
+        <input ng-keyup="checkReady('login')" ng-blur="checkReady('login')"
+               ng-focus="checkReady('login')" type="text" class="form-control rounded-control input-lg" id="username"
+               ng-model="email" placeholder="Email"
+               my-enter="login()"/>
+    </div>
+    <div class="form-group">
+        <input ng-keyup="checkReady('login')" ng-blur="checkReady('login')"
+               ng-focus="checkReady('login')" type="password"
+               class="form-control input-lg rounded-control" id="password"
+               ng-model="password"
+               placeholder="Password"
+               my-enter="login()"/>
+    </div>
+
+    <div class="form-group">
+        <p class="text-center normal-text">By clicking login, I represent that I have read and
+            agree to the <a
+                    class="blue" href="#/terms-of-use">Terms of Use</a> and <a class="blue"
+                                                                                       href="#/privacy-policy">Privacy
+                Policy</a>.</p>
+    </div>
+
+    <div class="form-group">
+        <button class="btn-submit rounded-control" ng-click="login()"
+                ng-class="(loginReady == true) ? 'btn btn-default clear-input-button btn-active btn-submit' : 'btn btn-default clear-input-button btn-submit'">
+            LOGIN
+        </button>
+    </div>
+
+    <div class="form-group center">
+        <a class="underlined blue normal-text" ng-click="forgotPassword()" href="#">Forgot Password?</a>
+    </div>
+</div>

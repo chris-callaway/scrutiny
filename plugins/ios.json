@@ -1,0 +1,37 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "com.danielcwilson.plugins.socialauth": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "cordova-plugin-background-mode": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "de.appplant.cordova.plugin.local-notification": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "cordova-plugin-inappbrowser": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "com.cordova.plugins.cookiemaster": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        },
+        "cordova-plugin-app-event": {
+            "PACKAGE_NAME": "com.gazellia.scrutiny"
+        }
+    }
+}

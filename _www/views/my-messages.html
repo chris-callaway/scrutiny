@@ -1,0 +1,91 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<!--<div class="container" style="margin-bottom: 10px; border-bottom: 1px solid; padding:3px;"-->
+<!--ng-repeat="item in messages | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">-->
+<!--<div><span>Date:&nbsp;</span>{{item.time_sent | date:'medium'}}</div>-->
+<!--<div><span>Type:&nbsp;</span>{{item.type}}</div>-->
+<!--<div><span>To:&nbsp;</span>{{item.to}}</div>-->
+<!--<div><span>Message:&nbsp;</span>{{item.message}}</div>-->
+<!--<div><span>Attachment:&nbsp;</span>-->
+<!--<img style="max-width: 100px;" ng-if="item.attachment"-->
+<!--src="http://192.169.217.115/~developer/2BAnonymous/server/{{item.attachment}}"/>-->
+<!--</div>-->
+<!--<div><span>Reply:&nbsp;</span>{{item.reply_msg}}</div>-->
+<!--</div>-->
+
+<!--<ul class="pagination" ng-show="!loading">-->
+<!--<li><a href="" ng-click="pagination.prevPage()">&laquo;</a></li>-->
+<!--<li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">-->
+<!--<a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>-->
+<!--</li>-->
+<!--<li><a href="" ng-click="pagination.nextPage()">&raquo;</a></li>-->
+<!--</ul>-->
+
+<div class="container small-container">
+    <div class="row">
+        <div class="col-sm-3" style="padding-right: 0;">
+            <!--left column-->
+            <ul id="inbox-from">
+                <li>
+                    <select class="form-control" style="text-transform:capitalize;"
+                            ng-options="item as item for item in messageTypes track by item"
+                            ng-model="inboxFilter" ng-change="initMailFilter()">
+                    </select>
+                </li>
+                <li ng-show="!searchEnabled" ng-repeat="item in currentList" ng-click="setCurrentLog(item, $event)">
+                    {{item[0].to}}
+                </li>
+                <li ng-show="searchEnabled" ng-repeat="item in currentSearchResults" ng-click="setCurrentLog(item, $event)">
+                    {{item[0].to}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-9" style="padding-left: 0; background: #f4f4f6;"><!--right column-->
+            <ul id="inbox-message">
+                <li style="height: 55px;">
+                    <span class="table-cell">
+                        <div class="cell">
+                            {{currentLog[0].to}}
+                            <img class="tiny-thumb"
+                                 ng-show="currentLog[0].type != 'twitter' && currentLog[0].type != 'facebook'"
+                                 ng-src="images/y_{{currentLog[0].type}}.png"/>
+                            <img class="tiny-thumb"
+                                 ng-show="currentLog[0].type == 'twitter' || currentLog[0].type == 'facebook'"
+                                 ng-src="images/y_social.png"/>
+                            <ul class="pagination" ng-show="currentLog">
+                                <li>{{pagination.page + 1}} of {{pagination.numPages}}</li>
+                                <li><a href="" ng-click="pagination.prevPage()"><i
+                                        class="fa fa-chevron-circle-left"></i></a></li>
+                                <!--<li ng-repeat="n in [] | range: pagination.numPages" ng-class="{active: n == pagination.page}">-->
+                                <!--<a href="" ng-click="pagination.toPageId(n)">{{n + 1}}</a>-->
+                                <!--</li>-->
+                                <li><a href="" ng-click="pagination.nextPage()"><i
+                                        class="fa fa-chevron-circle-right"></i></a></li>
+                            </ul>
+                        </div>
+                    </span>
+
+                </li>
+                <li id="message-container">
+                    <ul>
+                        <li ng-repeat="item in currentLog | startFrom: pagination.page * pagination.perPage | limitTo: pagination.perPage">
+                            <div class="message">
+                                <div>{{item.message}}</div>
+                                <div ng-show="item.attachment"><img
+                                        ng-src="http://192.169.217.115/~developer/2BAnonymous/server/{{item.attachment}}"/>
+                                </div>
+                            </div>
+                            <div class="reply">
+                                <div style="font-weight: 800;">Response</div>
+                                <div class="response" ng-show="!item.reply_msg">Hasn't responded yet...</div>
+                                <div class="response" ng-show="item.reply_msg">{{item.reply_msg}}</div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

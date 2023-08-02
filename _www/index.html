@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="msapplication-tap-highlight" content="no"/>
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport"
+          content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" type="text/css" href="css/index.css"/>
+    <title>2BAnonymous</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="styles/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="styles/main.scss">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/gauge.css">
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,200' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/mobile-angular-ui-hover.min.css">
+    <link rel="stylesheet" href="css/mobile-angular-ui-base.min.css">
+    <link rel="stylesheet" href="css/mobile-angular-ui-desktop.min.css">
+</head>
+<body ng-class="(loginPage == true) ? 'has-sidebar-left loginPage' : 'has-sidebar-left'" ng-app="2BanonymousApp"
+      ng-swipe-right="swipeRight()" ng-swipe-left="swipeLeft()">
+
+<div ng-show="globals.currentUser || accountCreate" ui-track-as-search-param="true" ng-controller="headerController"
+     class="sidebar sidebar-left">
+    <div class="scrollable ng-scope" style="padding-top: 100px;">
+        <div class="scrollable-header app-name">
+            <span><img class="sidebar-logo" src="img/2b_logo_white.png"/></span>
+            <span class="sidebar-title" ng-show="globals.currentUser.name">{{globals.currentUser.name}}</span>
+        </div>
+
+        <div class="scrollable-content">
+            <div class="list-group" ui-turn-off="uiSidebarLeft">
+                <a ng-show="!accountCreate"
+                   ng-class="(mainActive == true) ? 'list-group-item active' : 'list-group-item'"
+                   ng-click="changePage('/main')" href="#">
+                    <i class="fa fa-home"></i>Main</a>
+                <a ng-show="!accountCreate"
+                   ng-class="(accountEdit == true) ? 'list-group-item active' : 'list-group-item'"
+                   ng-click="changePage('/account-edit')" href="#">
+                    <i class="fa fa-cog"></i>Account
+                </a>
+                <a ng-show="!accountCreate"
+                   class="list-group-item" ng-click="logout()"
+                   href="#">
+                    <i class="fa fa-power-off"></i>Log Out
+                    <a ng-show="accountCreate" class="list-group-item" ng-click="changePage('/')" href="#">
+                        <i class="fa fa-power-off"></i>Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="app" ng-class="(loginPage == true) ? 'loginPageHeight' : ''">
+
+    <div class="mobile-header" ng-hide="loginPage" ng-controller="headerController">
+        <div class="header-container" ng-cloak>
+            <div id="mobile-menu" ng-hide="navigationActive" ng-show="globals.currentUser" ng-click="toggleSidebar()"
+                 class="btn sidebar-toggle inline">
+                <i class="fa fa-bars"></i>
+            </div>
+            <div id="back-button" ng-show="navigationActive" ng-click="goBack()">
+                <i class="fa fa-angle-left"></i>
+            </div>
+            <p id="headline" class="inline">{{headline}}</p>
+        </div>
+    </div>
+
+    <div ng-hide="navigationActive" ng-class="{'sub-header': showShowHeader, 'hide': !showShowHeader}" ng-cloak
+         ng-controller="MainCtrl">
+        <ul class="highlight-options row">
+            <li ng-click="menuSelect(item.method, true);highlightItem(item.method)"
+                ng-repeat="item in messageTypes"
+                ng-class="{'highlightedItem': selectedMethod == item.method}">
+                <div class="{{
+item.method=='textMessage'?'sub-text-icon':'' ||
+item.method=='phoneCall'?'sub-phone-icon':'' ||
+item.method=='email'?'sub-email-icon':'' ||
+item.method=='socialMedia'?'sub-social-icon':''
+}}" ng-class="getSelectedMethod(selectedMethod, item.method)">
+                </div>
+                <div ng-show="selectedSocial && item.method=='socialMedia'" class="{{
+selectedSocial=='facebook'?'sub-facebook-icon':'' ||
+selectedSocial=='twitter'?'sub-twitter-icon':''
+}}">
+                </div>
+
+                <p>{{item.type}}</p>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-class="{'small-header sub-header': messageLog, 'hide': !messageLog}" ng-cloak
+         ng-if="messageLog" ng-controller="MyMessagesCtrl">
+        <div class="header-restraint">
+            <div class="header-title">INBOX</div>
+            <div id="messageLogSearch">
+                <div class="form-group inner-addon right-addon input-group full-width">
+                    <i class="fa fa-question font-icon"></i>
+                    <input type="text" ng-model="mailSearchTerm" placeholder="Search" my-enter="initSearch()"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="view"
+         ng-class="{'container extended-padding': showShowHeader, 'container': !showShowHeader, 'navigation-padding': navigationActive}">
+        <div class="page {{pageClass}}" ng-view=""></div>
+    </div>
+    <div class="footer">
+        <div class="container"></div>
+    </div>
+</div>
+
+<!--<div id="signUp" ng-class="(loginPage == true) ? 'bottom-widget container' : 'bottom-widget hide container'">-->
+<!--<p class="center not-supported">Don't have an account?</p>-->
+
+<!--<div class="form-group">-->
+<!--<button ng-click="transition('fade', 'up', '#/account-create')" class="btn-active btn btn-default">-->
+<!--SIGN UP-->
+<!--</button>-->
+<!--</div>-->
+<!--</div>-->
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript">
+    app.initialize();
+</script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular/angular-resource.js"></script>
+<script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="scripts/moment.js"></script>
+<script type="text/javascript" src="scripts/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<script src="scripts/twilio.min.js"></script>
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/main.js"></script>
+<script src="scripts/controllers/login.js"></script>
+<script src="scripts/controllers/accountCreate.js"></script>
+<script src="scripts/controllers/accountEdit.js"></script>
+<script src="scripts/controllers/headerController.js"></script>
+<script src="scripts/controllers/about.js"></script>
+<script src="scripts/controllers/replyController.js"></script>
+<script src="scripts/controllers/myMessagesController.js"></script>
+<script src="scripts/controllers/confirmationController.js"></script>
+<script src="scripts/controllers/modalController.js"></script>
+<script src="scripts/controllers/forgotPasswordController.js"></script>
+<script src="scripts/controllers/privacyController.js"></script>
+<script src="scripts/controllers/termsController.js"></script>
+<script src="scripts/services.js"></script>
+<script src="scripts/dbService.js"></script>
+<script src="scripts/ng-file-upload-shim.min.js"></script>
+<script src="scripts/angular-pagination.js"></script>
+<script src="bower_components/angular-touch/angular-touch.min.js"></script>
+<!-- for no html5 browsers support -->
+<script src="scripts/ng-file-upload.min.js"></script>
+<script src="js/mobile-angular-ui.min.js"></script>
+<script src="js/mobile-angular-ui.gestures.min.js"></script>
+</body>
+</html>

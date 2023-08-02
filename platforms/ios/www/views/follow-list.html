@@ -1,0 +1,35 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-hide="loading" id="follow-list" class="form-container">
+
+    <ul>
+        <li class="text-uppercase white" ng-click="facebook = facebook ? false : true">Facebook</li>
+    </ul>
+
+    <div ng-show="facebook">
+        <ul>
+            <li ng-repeat="user in followedUsers"
+                style="list-style-type:none;color:#fff;font-size:12px;text-indent:20px;">
+                {{user.user}}&nbsp;
+                <button class="btn default-btn" ng-click="deleteUser(followedUsers.indexOf(user))">Delete</button>
+            </li>
+        </ul>
+        <h1 class="white">Add a user to follow</h1>
+
+        <div class="form-container">
+
+            <div class="form-group inner-addon right-addon">
+                <input type="text" ng-model="facebookFollow"
+                       class="form-control input-lg rounded-control" placeholder="Facebook username or URL"/>
+            </div>
+            <div class="form-group">
+                <button ng-click="saveFollowFacebookUser()" class="btn-active btn btn-default btn-lg rounded-control">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

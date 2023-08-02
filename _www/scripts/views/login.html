@@ -1,0 +1,23 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-hide="loading" id="login-form" class="form-container">
+
+    <h1>Login</h1>
+
+    <div class="form-group">
+        <input type="text" class="form-control" id="username" ng-model="email" placeholder="Email"
+               my-enter="login()"/>
+    </div>
+    <div class="form-group">
+        <input type="password" class="form-control" id="password" ng-model="password" placeholder="Password"
+               my-enter="login()"/>
+    </div>
+
+    <div class="form-group">
+        <a href="#/account-create">Create account</a>
+    </div>
+
+    <button ng-click="login()" class="btn btn-default">Submit</button>
+</div>

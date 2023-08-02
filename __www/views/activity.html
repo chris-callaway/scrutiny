@@ -1,0 +1,20 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-hide="loading" id="activity" class="form-container">
+
+    <div ng-show="usersFollowed" ng-repeat="user in usersFollowed">
+        <img src="img/avatar.png" alt="{{user.user}}">
+
+        <h1 class="text-uppercase white username">{{user.user}}</h1>
+        <ul class="activity-list">
+            <li class="white data"><span class="info">Last Log In:</span> <span class="time">{{user.lastLogIn}}</span>
+            </li>
+            <li class="white data"><span class="info">Last Message Sent To You:</span> <span class="time">{{user.lastMessageSent}}</span>
+            </li>
+            <li class="white data"><span class="info">Last Read Message:</span> <span class="time">{{user.seen}}</span>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="modal-header">
+    <div ng-show="messageType == 'error'">
+        <h3 class="modal-title">Alert</h3>
+    </div>
+    <div ng-show="messageType == 'success' && !showBothButtons">
+        <h3 class="modal-title">Message sent!</h3>
+    </div>
+    <div ng-show="messageType == 'success' && showBothButtons">
+        <h3 class="modal-title">Leave Page?</h3>
+    </div>
+</div>
+<div class="modal-body" ng-class="(messageType == 'error') ? 'message-failed' : ''">
+    <div ng-show="loading" class="gauge-loader">
+        Loading…
+    </div>
+    <div ng-show="method == 'showDialog'">
+        {{ modalDialog }}
+    </div>
+    <div ng-show="(messageType == 'error' || showBothButtons) && !method">
+        {{ modalDialog }}
+    </div>
+    <div ng-show="(messageType == 'success' && !showBothButtons) && !method">
+        Your message has been successfully sent!
+    </div>
+    <div ng-show="messageType && !showBothButtons && method && method != 'showDialog'">
+        {{ modalDialog }}
+    </div>
+</div>
+<div class="modal-footer">
+    <div ng-show="showBothButtons">
+        <button class="btn btn-left" type="button" ng-click="ok()">Yes</button>
+        <button class="btn btn-right" type="button" ng-click="cancel()">No</button>
+    </div>
+    <div ng-show="!showBothButtons">
+        <button class="btn btn-primary" type="button" ng-click="cancel()">Ok</button>
+    </div>
+</div>

@@ -1,0 +1,164 @@
+<div ng-show="loading" class="gauge-loader">
+    Loading…
+</div>
+
+<div ng-class="{'container no-padding-top': showShowHeader, 'container': !showShowHeader}" ng-hide="loading">
+
+    <!-- Main Menu -->
+
+    <div>
+        <h1>Please log into your social media accounts</h1>
+
+        <div class="row">
+            <div class="col-xs-6">
+                <button ng-click="facebook = facebook ? false : true"
+                        class="btn btn-primary btn-md btn-block btn-custom btn-facebook"><i
+                        class="fa-margin-top pull-left fa fa-facebook fa-lg"></i>Facebook
+                </button>
+            </div>
+        </div>
+        <!--<div class="row">-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="twitter = twitter ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-twitter"><i-->
+        <!--class="fa-margin-top pull-left fa fa-twitter fa-lg"></i>Twitter-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="google = google ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-google"><i-->
+        <!--class="fa-margin-top pull-left fa fa-google fa-lg"></i>Google-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="linkedin = linkedin ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-linkedin"><i-->
+        <!--class="fa-margin-top pull-left fa fa-linkedin fa-lg"></i>LinkedIn-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="instagram = instagram ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-instagram"><i-->
+        <!--class="fa-margin-top pull-left fa fa-instagram fa-lg"></i>Instagram-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="vk = vk ? false : true" class="btn btn-primary btn-md btn-block btn-custom btn-vk"><i-->
+        <!--class="fa-margin-top pull-left fa fa-vk fa-lg"></i>Vk-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="foursquare = foursquare ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-foursquare"><i-->
+        <!--class="fa-margin-top pull-left fa fa-foursquare fa-lg"></i>Foursqare-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--<div class="col-xs-6">-->
+        <!--<button ng-click="wordpress = wordpress ? false : true"-->
+        <!--class="btn btn-primary btn-md btn-block btn-custom btn-wordpress"><i-->
+        <!--class="fa-margin-top pull-left fa fa-wordpress fa-lg"></i>Wordpress-->
+        <!--</button>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+        <!--<div class="col-xs-6 col-xs-offset-3">-->
+        <!--<button ng-click="buffer = buffer ? false : true"-->
+        <!--class="btn btn-primary btn-sm btn-block btn-custom btn-buffer"><i-->
+        <!--class="fa-margin-top pull-left fa fa-buffer fa-lg"></i>Buffer-->
+        <!--</button>-->
+        <!--<div ng-bind="facebookSaved">Saved</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-sm-12">-->
+        <!--<button ng-click="loginTwitter()" class="btn-active btn btn-default">Twitter</button>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="row">-->
+        <!--<div class="col-sm-12">-->
+        <!--<button ng-click="loginInstagram()" class="btn-active btn btn-default">Instagram</button>-->
+        <!--</div>-->
+        <!--</div>-->
+
+        <div class="container">
+            <div ng-show="facebook">
+                <div class="row">
+                    <h2 class="white">Facebook</h2>
+                </div>
+                <div class="row">
+                    <div class="form-group inner-addon right-addon">
+                        <input class="form-control input-lg rounded-control" type="text" ng-model="facebookUsername"
+                               placeholder="Your username"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <input class="form-control input-lg rounded-control" type="password" ng-model="facebookPassword"
+                               placeholder="Your password"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <button ng-click="submitSocialAccount('facebook')"
+                                class="btn-active btn btn-default btn-lg rounded-control">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="twitter">
+                <div class="row">
+                    <h2 class="white">Twitter</h2>
+                </div>
+                <div class="row">
+                    <div class="form-group inner-addon right-addon">
+                        <input class="form-control input-lg rounded-control" type="text" ng-model="twitterUsername"
+                               placeholder="Your username"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <input class="form-control input-lg rounded-control" type="password" ng-model="twitterPassword"
+                               placeholder="Your password"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <button ng-click="submitSocialAccount('twitter')"
+                                class="btn-active btn btn-default btn-lg rounded-control">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="instagram">
+                <div class="row">
+                    <h2 class="white">Instagram</h2>
+                </div>
+                <div class="row">
+                    <div class="form-group inner-addon right-addon">
+                        <input class="form-control input-lg rounded-control" type="text" ng-model="instagramUsername"
+                               placeholder="Your username"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <input type="password" ng-model="instagramPassword"
+                               placeholder="Your password"/>
+                    </div>
+
+                    <div class="form-group inner-addon right-addon">
+                        <button ng-click="submitSocialAccount('instagram')"
+                                class="btn-active btn btn-default btn-lg rounded-control">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
